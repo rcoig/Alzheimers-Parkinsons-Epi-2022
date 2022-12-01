@@ -1,0 +1,504 @@
+---
+title: "Rene Coig's R Notebook for Clustering Analysis"
+date: 11/30/22
+---
+
+This notebook tests the hypothesis that age by sex trajectories in US mortality data can be used to identify physiological vs external influences on disease incidence.
+Sex-specific cancers that are solely driven by biology should cluster more frequently with more biologically driven diseases, whereas external causes should cluster more frequently with environmentally driven sex differences in diseases.
+
+Load package and data
+```{r}
+library(tidyverse)
+library(janitor)
+library(reshape2)
+#data_GACod <- read.csv("1999-2019_Gender-Age-byCauseofDeathALL.csv",header=T)
+data_GACod <- read.csv("1999-2019_Gender_byAge45andup_10-year-groups_byCauseofDeath.csv",header=T)
+Lifetime <- read.csv("1999-2019_Gender_AllAges_byCauseofDeath.csv",header=T)
+codes<-read.csv("Hierarchy.csv",header=T)
+desc<-read.csv("categories.csv",header=T)
+#install.packages("cluster")
+#install.packages("dendextend")
+#install.packages("corrplot")
+#install.packages("tidyverse")
+#install.packages("NbClust")
+library(factoextra)    #clustering visualization
+library(cluster)       #clustering algorithms
+library(dendextend)    #for comparing two dendrograms
+library(corrplot)      #correlation between dendrograms
+library(tidyverse)     #data manupulation
+library(NbClust)       #determine optimal no. of clusters
+library("ape")
+library("ggdendro")
+```
+
+Organizing Mortality Data.
+```{r}
+data1 <- janitor::clean_names(data_GACod)
+data1<-rename(data1, age = ten_year_age_groups_code)
+data1<-rename(data1, ucd = underlying_cause_of_death)
+data1<-rename(data1, ucd_code = underlying_cause_of_death_code)
+data1<-rename(data1, CR = crude_rate)
+data1<-rename(data1, CRSE = crude_rate_standard_error)
+data1 <- data1[!is.na(data1$population), ]#remove empty rows
+data1$cat_code<-substr(data1$ucd_code,1,3)
+
+data1_unreliable<-data1 %>% filter(CR == "Unreliable")
+data1_reliable<-data1 %>% filter(CR != "Unreliable")
+length(unique(data1_unreliable$cat_code))
+length(unique(data1_reliable$cat_code))
+
+data1_by_ucd_code<-data1 %>% 
+  group_by(gender,ucd_code) %>%
+  summarise(deaths=sum(deaths))
+
+deaths_by_gender_ucd_code<-melt(data1_by_ucd_code,id=c("ucd_code","gender"))
+deaths_by_gender_ucd_code<-dcast(deaths_by_gender_ucd_code,ucd_code ~ gender)
+deaths_by_gender_ucd_code[is.na(deaths_by_gender_ucd_code)] <- 0
+deaths_by_gender_ucd_code$Total<-deaths_by_gender_ucd_code$Female+deaths_by_gender_ucd_code$Male
+
+length(unique(data1$cat_code))
+```
+Cleaning the lifetime data as well.
+```{r}
+life1 <- janitor::clean_names(Lifetime)
+life1<-rename(life1, ucd = underlying_cause_of_death)
+life1<-rename(life1, ucd_code = underlying_cause_of_death_code)
+life1<-rename(life1, CR = crude_rate)
+life1<-rename(life1, CRSE = crude_rate_standard_error)
+life1 <- life1[!is.na(life1$population), ]#remove empty rows
+life1$cat_code<-substr(life1$ucd_code,1,3)
+
+life2<-life1 %>% 
+  group_by(gender,cat_code) %>% 
+  summarise(deaths = sum(deaths),population=population)
+life2<-distinct(life2)
+life1<-life1 %>% filter(CR != "Unreliable")
+length(unique(life1$ucd_code))
+length(unique(life2$cat_code))
+
+```
+
+
+
+Organizing code details data
+```{r}
+codes$cat_code<-substr(codes$ucd_code,1,3)
+
+hierarchy<-distinct(codes[,c(2,4,6,9)])
+
+```
+
+Aggregate number of deaths by cat_code and age group.
+```{r}
+deaths_by_age_code<-data1 %>% 
+  group_by(age, cat_code) %>% 
+  summarise(deaths = sum(deaths))
+deathcheck<-dcast(deaths_by_age_code,cat_code ~ age)
+```
+
+Identify causes of death that do not have sufficient deaths to reliably calculate mortality rates for QCing the data. Typically CDC sets this value at 20 deaths per year to calculate reliable mortality. However we have two groups to consider, males and females. Somewhere within 400-800 deaths should give reliable data. We do not do this by sex however as doing so we would lose codes where males or females have extremely low deaths in comparison to the other group.
+```{r}
+deathcheck$mincheck<-apply(deathcheck[,2:6], 1, FUN = min)
+keep400<-as.data.frame(deathcheck[deathcheck$mincheck>=400,])
+keep400 <- keep400[complete.cases(keep400),]
+reliable400<-unique(keep400$cat_code)
+keep800<-as.data.frame(deathcheck[deathcheck$mincheck>=800,])
+keep800 <- keep800[complete.cases(keep800),]
+reliable800<-unique(keep800$cat_code)
+lessreliable<-setdiff(reliable400,reliable800)
+```
+Cutoff of 400 (20 deaths per age group per year) yields 297 codes
+Cutoff of 800 (20 deaths per age group per sex per year) yields 222 codes
+75 codes are less reliable
+
+Remove unreliable codes.
+```{r}
+overlap1<-(data1$cat_code %in% reliable400)
+data1$remove<-overlap1
+codes_keep<-data1[data1$remove != "FALSE",]
+codes_keep<-codes_keep[,-c(2,3,6)]
+length(unique(codes_keep$cat_code))
+```
+Now aggregate by gender, code and age group.
+```{r}
+deaths_by_age_code_gender<-codes_keep %>% 
+  group_by(age, gender,cat_code) %>% 
+  summarise(deaths = sum(deaths))
+Ndeaths<- sum(deaths_by_age_code_gender$deaths)
+Ndeaths
+
+pop<-codes_keep %>% 
+  group_by(age, gender) %>% 
+  summarise(population = population)
+pop<-distinct(pop)
+
+deaths_by_gender_life<-life2 %>% 
+  group_by(gender,cat_code) %>% 
+  summarise(deaths = sum(deaths))
+
+pop2<-distinct(life2[,c(1,4)])
+```
+
+Replace NAs with zeros
+```{r}
+
+codes_keep$icd_cat<-substr(codes_keep$cat_code,1,1)
+deaths_by_icd_cat<-codes_keep %>% 
+  group_by(icd_cat) %>% 
+  summarise(deaths = sum(deaths))
+deaths_by_icd_cat$icd_clust<-seq(1,19)
+lessreliable
+
+deaths_by_age_code_gender<-dcast(deaths_by_age_code_gender, gender + cat_code ~ age)
+
+deaths_by_age_code_gender<-merge(deaths_by_age_code_gender,codes_keep[,c(8:9)],by="cat_code")
+deaths_by_age_code_gender<-distinct(deaths_by_age_code_gender)
+deaths_by_age_code_gender<-deaths_by_age_code_gender[,-c(8)]
+
+deaths_by_age_code_gender$mincheck<-apply(deaths_by_age_code_gender[,3:7], 1, FUN = min)
+deaths_by_age_code_gender$avgcheck<-apply(deaths_by_age_code_gender[,3:7], 1, FUN = mean)
+
+deaths_by_gender_life<-dcast(deaths_by_gender_life, cat_code ~ gender)
+deaths_by_gender_life[is.na(deaths_by_gender_life)] <- .01
+
+table(deaths_by_age_code_gender$cat_code)
+```
+Causes of death with one gender missing are female- or male- specific. Put <zero> deaths in for the gender that cannot die of these causes. 1 will prevent NaN's from resulting later from log correction. C51-C58 are female organ cancers; C60-C63 are male organ cancers.
+```{r}
+Fspecific<-c("C51","C52","C53","C54","C55","C56","C57","C58")
+Mspecific<-c("C60","C61","C62","C63")
+overlap1<-(deaths_by_age_code_gender$cat_code %in% Fspecific)
+deaths_by_age_code_gender$Fspecific<-overlap1
+overlap1<-(deaths_by_age_code_gender$cat_code %in% Mspecific)
+deaths_by_age_code_gender$Mspecific<-overlap1
+codes_Fspecific<-deaths_by_age_code_gender[deaths_by_age_code_gender$Fspecific == "TRUE",]
+codes_Mspecific<-deaths_by_age_code_gender[deaths_by_age_code_gender$Mspecific == "TRUE",]
+codes_Fspecific[,c(3:7)]<-1
+codes_Fspecific$gender<-"Male"
+codes_Mspecific[,c(3:7)]<-1
+codes_Mspecific$gender<-"Female"
+deaths_by_age_code_gender<-rbind(deaths_by_age_code_gender,codes_Fspecific,codes_Mspecific)
+deaths_by_age_code_gender$Fspecific<-NULL
+deaths_by_age_code_gender$Mspecific<-NULL
+table(deaths_by_age_code_gender$cat_code)
+Ncodes<-length(unique(deaths_by_age_code_gender$cat_code))
+```
+Data is now complete.
+
+Calculate log mortality by sex.
+```{r}
+melt<-melt(deaths_by_age_code_gender, id=c("cat_code","gender"))
+melt<-rename(melt, age = variable)
+melt<-rename(melt, deaths = value)
+melt<-merge(melt,pop,by=c("gender","age"))
+melt$MR<-melt$deaths/melt$population*100000
+melt$logMR<-log(melt$MR)
+logMR<-melt[,c(1,2,3,7)]
+length(unique(logMR$cat_code))
+```
+Calculate instantaneous mortality by sex ?? 
+Per Daniel: "For Gompertz models, we use an approximation of the ‘instantaneous mortality rate’ µ(x). Where q(x) is the mortality rate per year (or large unit time), µ(x) is the mortality as the delta-x --> 0 (like the slope dx in calculus). And it is this that we use for Gompertz models. To get there, we use the approximation µ(x) = -ln(p(x)) (i.e. natural log of p(x)), where p(x) is 1 - q(x).
+
+Skip for now, Not sure how to get past the negative numbers that are generated with p(x) and thus giving NaNs for the -log...
+```{r}
+#meltmu<-melt(deaths_by_age_code_gender, id=c("cat_code","gender"))
+#meltmu<-rename(meltmu, age = variable)
+#meltmu<-rename(meltmu, deaths = value)
+#meltmu<-merge(meltmu,pop,by=c("gender","age"))
+#meltmu$px <- 1-(meltmu$deaths/meltmu$population*100000)
+#meltmu$mu<-(-log(meltmu$px))
+#logmu<-meltmu
+#length(unique(logmu$cat_code))
+```
+
+
+```{r}
+melt_life<-melt(deaths_by_gender_life, id=c("cat_code"))
+melt_life<-rename(melt_life, gender = variable)
+melt_life<-rename(melt_life, deaths = value)
+melt_life<-merge(melt_life,pop2,by=c("gender"))
+melt_life$MRlife<-melt_life$deaths/melt_life$population*100000
+melt_life$logMRlife<-log(melt_life$MRlife)
+logMR_life<-melt_life
+length(unique(logMR_life$cat_code))
+```
+
+Calculate sex differences in log mortality by age and cause of death.
+```{r}
+logMR_by_gender<-dcast(logMR, cat_code + age ~ gender)
+logMR_by_gender$Diff<-logMR_by_gender$Male-logMR_by_gender$Female
+
+logMR_by_gender_life<-dcast(melt_life[,c(1,2,6)], cat_code ~ gender)
+logMR_by_gender_life$Diff<-logMR_by_gender_life$Male-logMR_by_gender_life$Female
+logMR_by_gender_life<-rename(logMR_by_gender_life, Female_life = Female)
+logMR_by_gender_life<-rename(logMR_by_gender_life, Male_life = Male)
+logMR_by_gender_life<-rename(logMR_by_gender_life, Diff_life = Diff)
+
+
+left_join(logMR_by_gender, logMR_by_gender_life, by='cat_code')->logMR_by_gender
+left_join(logMR_by_gender, desc, by='cat_code')->logMR_by_gender
+length(unique(logMR_by_gender$cat_code))
+
+write.csv(logMR_by_gender,"Diffs_45up.csv",row.names = F)
+```
+
+
+Now for the clustering Analysis. Removing unnecessary dfs.
+```{r}
+rm(list = setdiff(ls(), c("logMR_by_gender","logMR_by_gender_life", "deaths_by_age_code_gender", "deaths_by_icd_cat" , "data1","deaths_by_gender_ucd_code","life1")))
+```
+
+Centering data for clustering.
+```{r}
+logMRdiff_by_age<-dcast(logMR_by_gender[,c(1,2,5)], cat_code ~ age)
+logMRdiff_by_age$cat_code->row.names(logMRdiff_by_age)
+logMRdiff_by_age$cat_code<-NULL
+logMRdiff_by_cat<-as.data.frame(t(logMRdiff_by_age))
+logMRdiff_by_cat_centered<-as.data.frame(scale(logMRdiff_by_cat,center=T,scale=F))
+logMRdiff_by_cat_centered_scaled<-as.data.frame(scale(logMRdiff_by_cat,center=T,scale=T))
+logMRdiff_by_age_centered<-as.data.frame(t(logMRdiff_by_cat_centered))
+logMRdiff_by_age_centered_scaled<-as.data.frame(t(logMRdiff_by_cat_centered_scaled))
+CoD<-logMRdiff_by_age_centered
+CoD_codes<-CoD
+CoD_codes$cat_code<-row.names(CoD_codes)
+write.csv(CoD_codes,"Data_centered.csv",row.names = F)
+
+```
+Performing Hierarchical Clustering using different methods.
+```{r}
+hc_d <- diana(CoD) #Diana doesn't work great
+hc_a_average <- agnes(CoD,method="average")
+hc_a_complete <- agnes(CoD,method="complete")
+hc_a_ward <- agnes(CoD,method="ward")
+hc_a_weighted <- agnes(CoD,method="weighted")
+hc_a_gaverage <- agnes(CoD,method="gaverage")
+```
+
+Plotting dendrograms
+```{r}
+pltree(hc_d, cex = 0.6, hang = -1, main = "Dendrogram of diana")
+pltree(hc_a_average, cex = 0.6, hang = -1, main = "Dendrogram of agnes, average")
+pltree(hc_a_complete, cex = 0.6, hang = -1, main = "Dendrogram of agnes, complete")
+pltree(hc_a_ward, cex = 0.6, hang = -1, main = "Dendrogram of agnes, ward")
+pltree(hc_a_weighted, cex = 0.6, hang = -1, main = "Dendrogram of agnes, weighted")
+pltree(hc_a_gaverage, cex = 0.6, hang = -1, main = "Dendrogram of agnes, gaverage")
+```
+Extracting dendrograms for each
+```{r}
+as.dendrogram(hc_d)->dend_hc_d
+as.dendrogram(hc_a_average)->dend_hc_a_average
+as.dendrogram(hc_a_complete)->dend_hc_a_complete
+as.dendrogram(hc_a_ward)->dend_hc_a_ward
+as.dendrogram(hc_a_weighted)->dend_hc_a_weighted
+as.dendrogram(hc_a_gaverage)->dend_hc_a_gaverage
+```
+
+How similar are the agglomerative dendrograms to diana dendrogram?
+“unique” nodes are highlighted with dashed lines
+```{r}
+dends_all <- dendlist(dend_hc_d, dend_hc_a_average, dend_hc_a_complete, dend_hc_a_ward, dend_hc_a_weighted, dend_hc_a_gaverage)
+
+dends_1_2 <- dendlist(dend_hc_d, dend_hc_a_average)
+dends_1_2 %>% entanglement #lower is better .13
+dends_1_3 <- dendlist(dend_hc_d, dend_hc_a_complete)
+dends_1_3 %>% entanglement #lower is better .22
+dends_1_4 <- dendlist(dend_hc_d, dend_hc_a_ward)
+dends_1_4 %>% entanglement #lower is better .14
+dends_1_5 <- dendlist(dend_hc_d, dend_hc_a_weighted) #most different from diana
+dends_1_5 %>% entanglement #lower is better .25
+dends_1_6 <- dendlist(dend_hc_d, dend_hc_a_gaverage) #most similar to diana
+dends_1_6 %>% entanglement #lower is better .11
+```
+Tangelgrams of most different and most similar
+```{r}
+tanglegram(dends_1_5)
+tanglegram(dends_1_6)
+
+library(corrplot)
+corrplot(cor.dendlist(dends_all), "pie", "lower")
+
+```
+
+Plotting prettier dendrograms
+```{r}
+plot(ape::as.phylo(dend_hc_d), cex = 1, label.offset = .01,type="fan",no.margin=T)
+plot(ape::as.phylo(dend_hc_a_average), cex = 1, label.offset = .01,type="fan",no.margin=T)
+plot(ape::as.phylo(dend_hc_a_complete), cex = 1, label.offset = .01,type="fan",no.margin=T)
+plot(ape::as.phylo(dend_hc_a_ward), cex = 1, label.offset = .01,type="fan",no.margin=T)
+plot(ape::as.phylo(dend_hc_a_weighted), cex = 1, label.offset = .01,type="fan",no.margin=T)
+plot(ape::as.phylo(dend_hc_a_gaverage), cex = 1, label.offset = .01,type="fan",no.margin=T)
+```
+extended pairs code
+```{r}
+panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...)
+{
+  usr <- par("usr"); on.exit(par(usr))
+  par(usr = c(0, 1, 0, 1))
+  r <- abs(cor(x, y,use="pairwise.complete.obs"))
+  txt <- format(c(r, 0.123456789), digits = digits)[1]
+  txt <- paste0(prefix, txt)
+  if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
+  text(0.5, 0.5, txt, cex = cex.cor * r)
+}
+```
+
+
+
+```{r}
+#library(pvclust)
+#pv_hc_d<-pvclust(hc_d,nboot=1000)
+```
+
+
+
+
+exploring relationships between variables
+```{r}
+pairs(logMR_by_gender[,3:8],lower.panel=panel.cor)
+pairs(deaths_by_gender_ucd_code[,2:4],lower.panel=panel.cor,main="US deaths 1999-2019 by Cause of Death")
+pairs(logMRdiff_by_age,lower.panel=panel.cor,main="log Mortality sexdiff by age, uncentered")
+pairs(logMRdiff_by_age_centered,lower.panel=panel.cor,main="log Mortality sexdiff by age, centered")
+pairs(logMRdiff_by_age_centered_scaled,lower.panel=panel.cor,main="log Mortality sexdiff by age, centered and scaled")
+deaths_by_gender_ucd_code$ArcFemale<-log(deaths_by_gender_ucd_code$Female)
+deaths_by_gender_ucd_code$ArcMale<-log(deaths_by_gender_ucd_code$Male)
+hist(deaths_by_gender_ucd_code$ArcFemale,breaks=15)
+hist(deaths_by_gender_ucd_code$ArcMale,breaks=15)
+
+```
+
+function to compute total within-cluster sum of squares
+```{r}
+set.seed(31)
+gap_stat <- clusGap(CoD, FUN = kmeans, nstart = 30, K.max = 24, B = 50)
+fviz_gap_stat(gap_stat) + theme_minimal() + ggtitle("fviz_gap_stat: Gap Statistic")
+
+```
+One mode of variance dominates the other... There is very little happening on the 
+
+Cutting into clusters, let's just go with...19 because we have 19 ICD categories
+```{r}
+CoD_plot<-CoD
+cutree(as.hclust(hc_d), k=19)->CoD_plot$diana
+cutree(as.hclust(hc_a_average), k=19)->CoD_plot$a_average
+cutree(as.hclust(hc_a_complete), k=19)->CoD_plot$a_complete
+cutree(as.hclust(hc_a_ward), k=19)->CoD_plot$a_ward
+cutree(as.hclust(hc_a_weighted), k=19)->CoD_plot$a_weighted
+cutree(as.hclust(hc_a_gaverage), k=19)->CoD_plot$a_gaverage
+CoD_plot$cat_code<-row.names(CoD_plot)
+CoD_plot<-merge(CoD_plot,desc,by="cat_code")
+CoD_plot$icd_cat<-substr(CoD_plot$cat_code,1,1)
+CoD_plot<-merge(CoD_plot,deaths_by_icd_cat[,c(1,3)],by="icd_cat")
+write.csv(CoD_plot,"Clusters.csv")
+```
+
+```{r}
+pairs(CoD_plot[,c(8:13,15)],lower.panel=panel.cor,main="Comparison of Clusterings")
+```
+sex difference by cluster centered
+
+```{r}
+
+
+plot_clusters_centered<-melt(CoD_codes, id=c("cat_code"))
+plot_clusters_centered<-rename(plot_clusters_centered, diff = value)
+plot_clusters_centered<-rename(plot_clusters_centered, age = variable)
+plot_clusters_centered<-merge(plot_clusters_centered,CoD_plot[,c(1,2,8:13,15)],by="cat_code")
+#plot_clusters_centered<-merge(plot_clusters_centered,logMR_by_gender[,1:2],by="code")
+plot_clusters_centered<-distinct(plot_clusters_centered)
+```
+
+```{r}
+
+plot_clusters_centered %>%
+  ggplot(aes(x = age, y = diff,group=cat_code)) +
+  geom_line() +
+  scale_size_manual(values = c(all = 2, cat_code = .5, ch_grp = 2))+
+  geom_vline(xintercept=1,color="gray",alpha=0.7,linetype=2,size=.5)+
+  geom_vline(xintercept=2,color="gray",alpha=0.7,linetype=2,size=.5)+
+  geom_vline(xintercept=3,color="gray",alpha=0.7,linetype=2,size=.5)+
+  geom_vline(xintercept=4,color="gray",alpha=0.7,linetype=2,size=.5)+
+  geom_vline(xintercept=5,color="gray",alpha=0.7,linetype=2,size=.5)+
+  geom_vline(xintercept=6,color="gray",alpha=0.7,linetype=2,size=.5)+
+  xlab("Age Group") + 
+  ylab("Centered log (Male/Female)") +
+  ggtitle("Clusters by Cause of Death")+
+  facet_wrap(~diana,nrow=4)+
+  #ylim(-1.5,1.5)+
+  theme(legend.position = "none")+ 
+  theme(legend.position = c(0.9, 0.7))+
+  theme(legend.key=element_blank())+ 
+  theme(panel.spacing = unit(.5, "lines"),
+        panel.border = element_rect(color = "black", fill = NA, size = .5), 
+        strip.background = element_rect(color = "black", size = 1))+  theme(plot.title = element_text(size = 20, hjust = 0.5))+
+  theme(axis.text.x = element_text(angle = -60, vjust = 0.2, hjust=0.5))+
+    theme(axis.ticks.y = element_blank(),axis.text.y = element_blank())+
+
+  guides(fill=F,color=F,size=F)+
+  theme(text=element_text(size=16))+
+  theme(
+    panel.background = element_rect(fill = "white",
+                                    colour = "white",
+                                    size = 0.5, linetype = "solid"),
+    panel.grid.major = element_line(size = 0.5, linetype = 'solid',
+                                    colour = "white"), 
+    panel.grid.minor = element_blank())
+```
+
+plot clusters by non centered
+
+```{r}
+logMR_by_gender<-merge(logMR_by_gender,CoD_plot[,c(2,8:13,15)],by="cat_code")
+```
+
+
+
+```{r}
+logMR_by_gender<-merge(logMR_by_gender,CoD_plot[,c(1,7)])
+#sex difference by cluster
+logMR_by_gender %>%
+  filter (cat_code == "I25" ) %>%
+  ggplot(aes(x = age, y = Diff,group=cat_code,color=Diff)) +
+  geom_line(size=.1) +
+  #scale_color_gradientn(high = "#5D3A9B", low = "gray")+
+  scale_color_gradientn(colors = c("gray","gray","#E66100"),
+                         values = c(2,.5,-.5,-2))+ 
+    #scale_size_manual(values = c(all = 4, cat_code = .5, ch_grp = 2))+
+  #scale_color_manual(values = c(all = "gray", cat_code = "gray", ch_grp = "green"))+
+  geom_hline(yintercept=0,color="gray",alpha=0.7,linetype=2,size=3)+
+  xlab("Age Group") + 
+  ylab("Log mortality sex ratio") +
+  #ggtitle("Cluster 1 Physiological")+
+  #ylim(-.5,.5)+
+  theme(legend.position = "none")+ 
+  theme(legend.position = c(0.9, 0.7))+
+  theme(legend.key=element_blank())+ 
+  theme(panel.spacing = unit(.5, "lines"),
+        panel.border = element_rect(color = "black", fill = NA, size = .5), 
+        strip.background = element_rect(color = "black", size = 1))+  theme(plot.title = element_text(size = 30, hjust = 0.5))+
+  theme(axis.text.x = element_text(angle = -60, vjust = 0.2, hjust=0.5))+
+  #theme(axis.title.x=element_blank())+
+  #theme(axis.text.y = element_blank())+
+  guides(fill="none",color="none",size="none",scale="none")+
+  theme(text=element_text(size=20))+
+  theme(
+    panel.background = element_rect(fill = "white",
+                                    colour = "white",
+                                    size = 0.5, linetype = "solid"),
+    panel.grid.major = element_line(size = 0.5, linetype = 'solid',
+                                    colour = "white"), 
+    panel.grid.minor = element_blank())
+
+```
+
+
+```{r}
+scores <- read.csv("cat_code_scores.csv",header=T)
+logMR_by_gender<-merge(logMR_by_gender,scores,by="cat_code")
+
+boxplot(logMR_by_gender$bio.endocrine~logMR_by_gender$diana)
+
+
+```
+
+
+
