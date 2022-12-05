@@ -1,0 +1,298 @@
+icd_cat,cat_code,ex:pathogenic,ex:poison,external,env_sum,bio:behavioral,bio:endocrine,bio:physiological,bio_sum,score,ucd
+A,A04,1,0,0,-1,0,0,1,1,0,Other bacterial intestinal infections
+A,A09,1,0,0,-1,0,0,1,1,0,"Infectious gastroenteritis and colitis, unspecified"
+A,A16,1,0,0,-1,0,0,1,1,0,"Respiratory tuberculosis, not confirmed bacteriologically or histologically"
+A,A40,1,0,0,-1,0,0,1,1,0,Streptococcal sepsis
+A,A41,1,0,0,-1,0,0,1,1,0,Other sepsis
+A,A48,1,0,0,-1,0,0,1,1,0,"Other bacterial diseases, not elsewhere classified"
+A,A49,1,0,0,-1,0,0,1,1,0,Bacterial infection of unspecified site
+B,B17,1,0,0,-1,0,0,1,1,0,Other acute viral hepatitis
+B,B18,1,0,0,-1,0,0,1,1,0,Chronic viral hepatitis
+B,B34,1,0,0,-1,0,0,1,1,0,Viral infection of unspecified site
+B,B37,1,0,0,-1,0,0,1,1,0,Candidiasis
+B,B49,1,0,0,-1,0,0,1,1,0,Unspecified mycosis
+B,B94,1,0,0,-1,0,0,1,1,0,Sequelae of other and unspecified infectious and parasitic diseases
+C,C02,0,0,0,0,0,0,1,1,1,Malignant neoplasm of other and unspecified parts of tongue
+C,C06,0,0,0,0,0,0,1,1,1,Malignant neoplasm of other and unspecified parts of mouth
+C,C07,0,0,0,0,0,0,1,1,1,Malignant neoplasm of parotid gland
+C,C08,0,0,0,0,0,0,1,1,1,Malignant neoplasm of other and unspecified major salivary glands
+C,C09,0,0,0,0,0,0,1,1,1,Malignant neoplasm of tonsil
+C,C10,0,0,0,0,0,0,1,1,1,Malignant neoplasm of oropharynx
+C,C11,0,0,0,0,0,0,1,1,1,Malignant neoplasm of nasopharynx
+C,C14,0,0,0,0,0,0,1,1,1,"Malignant neoplasm of other and ill-defined sites in the lip, oral cavity and pharynx"
+C,C15,0,0,0,0,0,0,1,1,1,Malignant neoplasm of esophagus
+C,C16,0,0,0,0,0,0,1,1,1,Malignant neoplasm of stomach
+C,C17,0,0,0,0,0,0,1,1,1,Malignant neoplasm of small intestine
+C,C18,0,0,0,0,0,0,1,1,1,Malignant neoplasm of colon
+C,C19,0,0,0,0,0,0,1,1,1,Malignant neoplasm of rectosigmoid junction
+C,C20,0,0,0,0,0,0,1,1,1,Malignant neoplasm of rectum
+C,C21,0,0,0,0,0,0,1,1,1,Malignant neoplasm of anus and anal canal
+C,C22,0,0,0,0,0,0,1,1,1,Malignant neoplasm of liver and intrahepatic bile ducts
+C,C23,0,0,0,0,0,0,1,1,1,Malignant neoplasm of gallbladder
+C,C24,0,0,0,0,0,0,1,1,1,Malignant neoplasm of other and unspecified parts of biliary tract
+C,C25,0,0,0,0,0,1,1,2,2,Malignant neoplasm of pancreas
+C,C26,0,0,0,0,0,0,1,1,1,Malignant neoplasm of other and ill-defined digestive organs
+C,C31,0,0,0,0,0,0,1,1,1,Malignant neoplasm of accessory sinuses
+C,C32,0,0,0,0,0,0,1,1,1,Malignant neoplasm of larynx
+C,C34,0,0,0,0,0,0,1,1,1,Malignant neoplasm of bronchus and lung
+C,C38,0,0,0,0,0,0,1,1,1,"Malignant neoplasm of heart, mediastinum and pleura"
+C,C41,0,0,0,0,0,0,1,1,1,Malignant neoplasm of bone and articular cartilage of other and unspecified sites
+C,C43,0,0,0,0,0,0,1,1,1,Malignant melanoma of skin
+C,C44,0,0,0,0,0,0,1,1,1,Other and unspecified malignant neoplasm of skin
+C,C45,0,1,0,-1,0,0,1,1,0,Mesothelioma
+C,C48,0,0,0,0,0,0,1,1,1,Malignant neoplasm of retroperitoneum and peritoneum
+C,C49,0,0,0,0,0,0,1,1,1,Malignant neoplasm of other connective and soft tissue
+C,C50,0,0,0,0,0,0,1,1,1,Malignant neoplasm of breast
+C,C51,0,0,0,0,0,0,1,1,1,Malignant neoplasm of vulva
+C,C52,0,0,0,0,0,0,1,1,1,Malignant neoplasm of vagina
+C,C53,0,0,0,0,0,0,1,1,1,Malignant neoplasm of cervix uteri
+C,C54,0,0,0,0,0,0,1,1,1,Malignant neoplasm of corpus uteri
+C,C55,0,0,0,0,0,0,1,1,1,"Malignant neoplasm of uterus, part unspecified"
+C,C56,0,0,0,0,0,0,1,1,1,Malignant neoplasm of ovary
+C,C57,0,0,0,0,0,0,1,1,1,Malignant neoplasm of other and unspecified female genital organs
+C,C60,0,0,0,0,0,0,1,1,1,Malignant neoplasm of penis
+C,C61,0,0,0,0,0,0,1,1,1,Malignant neoplasm of prostate
+C,C64,0,0,0,0,0,0,1,1,1,"Malignant neoplasm of kidney, except renal pelvis"
+C,C67,0,0,0,0,0,0,1,1,1,Malignant neoplasm of bladder
+C,C68,0,0,0,0,0,0,1,1,1,Malignant neoplasm of other and unspecified urinary organs
+C,C69,0,0,0,0,0,0,1,1,1,Malignant neoplasm of eye and adnexa
+C,C71,0,0,0,0,0,0,1,1,1,Malignant neoplasm of brain
+C,C73,0,0,0,0,0,1,1,2,2,Malignant neoplasm of thyroid gland
+C,C74,0,0,0,0,0,1,1,2,2,Malignant neoplasm of adrenal gland
+C,C76,0,0,0,0,0,0,1,1,1,Malignant neoplasm of other and ill-defined sites
+C,C78,0,0,0,0,0,0,1,1,1,Secondary malignant neoplasm of respiratory and digestive organs
+C,C79,0,0,0,0,0,0,1,1,1,Secondary malignant neoplasm of other and unspecified sites
+C,C80,0,0,0,0,0,0,1,1,1,Malignant neoplasm without specification of site
+C,C81,0,0,0,0,0,0,1,1,1,Hodgkin lymphoma
+C,C82,0,0,0,0,0,0,1,1,1,Follicular lymphoma
+C,C83,0,0,0,0,0,0,1,1,1,Non-follicular lymphoma
+C,C84,0,0,0,0,0,0,1,1,1,Mature T/NK-cell lymphomas
+C,C85,0,0,0,0,0,0,1,1,1,Other specified and unspecified types of non-Hodgkin lymphoma
+C,C90,0,0,0,0,0,0,1,1,1,Multiple myeloma and malignant plasma cell neoplasms
+C,C91,0,0,0,0,0,0,1,1,1,Lymphoid leukemia
+C,C92,0,0,0,0,0,0,1,1,1,Myeloid leukemia
+C,C95,0,0,0,0,0,0,1,1,1,Leukemia of unspecified cell type
+C,C97,0,0,0,0,0,0,1,1,1,Malignant neoplasms of independent (primary) multiple sites
+D,D32,0,0,0,0,0,0,1,1,1,Benign neoplasm of meninges
+D,D37,0,0,0,0,0,0,1,1,1,Neoplasm of uncertain behavior of oral cavity and digestive organs
+D,D38,0,0,0,0,0,0,1,1,1,Neoplasm of uncertain behavior of middle ear and respiratory and intrathoracic organs
+D,D43,0,0,0,0,0,0,1,1,1,Neoplasm of uncertain behavior of brain and central nervous system
+D,D44,0,0,0,0,0,0,1,1,1,Neoplasm of uncertain behavior of endocrine glands
+D,D46,0,0,0,0,0,0,1,1,1,Myelodysplastic syndromes
+D,D47,0,0,0,0,0,0,1,1,1,"Other neoplasms of uncertain behavior of lymphoid, hematopoietic and related tissue"
+D,D48,0,0,0,0,0,0,1,1,1,Neoplasm of uncertain behavior of other and unspecified sites
+D,D61,0,0,0,0,0,0,1,1,1,Other aplastic anemias and other bone marrow failure syndromes
+D,D64,0,0,0,0,0,0,1,1,1,Other anemias
+D,D65,0,0,0,0,0,0,1,1,1,Disseminated intravascular coagulation [defibrination syndrome]
+D,D68,0,0,0,0,0,0,1,1,1,Other coagulation defects
+D,D69,0,0,0,0,0,0,1,1,1,Purpura and other hemorrhagic conditions
+D,D70,0,0,0,0,0,0,1,1,1,Neutropenia
+D,D84,0,0,0,0,0,0,1,1,1,Other immunodeficiencies
+D,D86,0,0,0,0,0,0,1,1,1,Sarcoidosis
+E,E03,0,0,0,0,0,1,1,2,2,Other hypothyroidism
+E,E05,0,0,0,0,0,1,1,2,2,Thyrotoxicosis [hyperthyroidism]
+E,E10,0,0,0,0,0,1,1,2,2,Type 1 diabetes mellitus
+E,E11,0,0,0,0,1,1,1,3,3,Type 2 diabetes mellitus
+E,E14,0,0,0,0,1,1,1,3,3,Unspecified diabetes mellitus
+E,E16,0,0,0,0,0,1,1,2,2,Other disorders of pancreatic internal secretion
+E,E27,0,0,0,0,0,1,1,2,2,Other disorders of adrenal gland
+E,E43,0,0,0,0,1,1,1,3,3,Unspecified severe protein-calorie malnutrition
+E,E46,0,0,0,0,1,1,1,3,3,Unspecified protein-calorie malnutrition
+E,E66,0,0,0,0,1,1,1,3,3,Overweight and obesity
+E,E78,0,0,0,0,0,1,1,2,2,Disorders of lipoprotein metabolism and other lipidemias
+E,E83,0,0,0,0,0,1,1,2,2,Disorders of mineral metabolism
+E,E85,0,0,0,0,0,1,1,2,2,Amyloidosis
+E,E86,0,0,0,0,0,1,1,2,2,Volume depletion
+E,E87,0,0,0,0,0,1,1,2,2,"Other disorders of fluid, electrolyte and acid-base balance"
+E,E88,0,0,0,0,0,1,1,2,2,Other and unspecified metabolic disorders
+F,F03,0,0,0,0,0,0,1,1,1,Unspecified dementia
+F,F10,0,1,0,-1,1,0,1,2,1,Alcohol related disorders
+F,F17,0,1,0,-1,1,0,1,2,1,Nicotine dependence
+F,F20,0,0,0,0,1,0,1,2,2,Schizophrenia
+F,F32,0,0,0,0,1,0,1,2,2,"Major depressive disorder, single episode"
+G,G03,1,0,0,-1,0,0,1,1,0,Meningitis due to other and unspecified causes
+G,G04,1,0,0,-1,0,0,1,1,0,"Encephalitis, myelitis and encephalomyelitis"
+G,G06,0,0,0,0,0,0,1,1,1,Intracranial and intraspinal abscess and granuloma
+G,G10,0,0,0,0,0,0,1,1,1,Huntington's disease
+G,G12,0,0,0,0,0,0,1,1,1,Spinal muscular atrophy and related syndromes
+G,G20,0,0,0,0,0,0,1,1,1,Parkinson's disease
+G,G30,0,0,0,0,0,0,1,1,1,Alzheimer's disease
+G,G31,0,0,0,0,0,0,1,1,1,"Other degenerative diseases of nervous system, not elsewhere classified"
+G,G35,0,0,0,0,0,0,1,1,1,Multiple sclerosis
+G,G40,0,0,0,0,0,0,1,1,1,Epilepsy and recurrent seizures
+G,G41,0,0,0,0,0,0,1,1,1,Status epilepticus
+G,G47,0,0,0,0,0,0,1,1,1,Sleep disorders
+G,G61,0,0,0,0,0,0,1,1,1,Inflammatory polyneuropathy
+G,G70,0,0,0,0,0,0,1,1,1,Myasthenia gravis and other myoneural disorders
+G,G71,0,0,0,0,0,0,1,1,1,Primary disorders of muscles
+G,G80,0,0,0,0,0,0,1,1,1,Cerebral palsy
+G,G82,0,0,0,0,0,0,1,1,1,Paraplegia (paraparesis) and quadriplegia (quadriparesis)
+G,G91,0,0,0,0,0,0,1,1,1,Hydrocephalus
+G,G93,0,0,0,0,0,0,1,1,1,Other disorders of brain
+I,I05,0,0,0,0,0,0,1,1,1,Rheumatic mitral valve diseases
+I,I08,0,0,0,0,0,0,1,1,1,Multiple valve diseases
+I,I09,0,0,0,0,0,0,1,1,1,Other rheumatic heart diseases
+I,I10,0,0,0,0,0,0,1,1,1,Essential (primary) hypertension
+I,I11,0,0,0,0,0,0,1,1,1,Hypertensive heart disease
+I,I12,0,0,0,0,0,0,1,1,1,Hypertensive chronic kidney disease
+I,I13,0,0,0,0,0,0,1,1,1,Hypertensive heart and chronic kidney disease
+I,I21,0,0,0,0,0,0,1,1,1,Acute myocardial infarction
+I,I24,0,0,0,0,0,0,1,1,1,Other acute ischemic heart diseases
+I,I25,0,0,0,0,0,0,1,1,1,Chronic ischemic heart disease
+I,I26,0,0,0,0,0,0,1,1,1,Pulmonary embolism
+I,I27,0,0,0,0,0,0,1,1,1,Other pulmonary heart diseases
+I,I31,0,0,0,0,0,0,1,1,1,Other diseases of pericardium
+I,I33,0,0,0,0,0,0,1,1,1,Acute and subacute endocarditis
+I,I34,0,0,0,0,0,0,1,1,1,Nonrheumatic mitral valve disorders
+I,I35,0,0,0,0,0,0,1,1,1,Nonrheumatic aortic valve disorders
+I,I38,0,0,0,0,0,0,1,1,1,"Endocarditis, valve unspecified"
+I,I42,0,0,0,0,0,0,1,1,1,Cardiomyopathy
+I,I45,0,0,0,0,0,0,1,1,1,Other conduction disorders
+I,I46,0,0,0,0,0,0,1,1,1,Cardiac arrest
+I,I47,0,0,0,0,0,0,1,1,1,Paroxysmal tachycardia
+I,I48,0,0,0,0,0,0,1,1,1,Atrial fibrillation and flutter
+I,I49,0,0,0,0,0,0,1,1,1,Other cardiac arrhythmias
+I,I50,0,0,0,0,0,0,1,1,1,Heart failure
+I,I51,0,0,0,0,0,0,1,1,1,Complications and ill-defined descriptions of heart disease
+I,I60,0,0,0,0,0,0,1,1,1,Nontraumatic subarachnoid hemorrhage
+I,I61,0,0,0,0,0,0,1,1,1,Nontraumatic intracerebral hemorrhage
+I,I62,0,0,0,0,0,0,1,1,1,Other and unspecified nontraumatic intracranial hemorrhage
+I,I63,0,0,0,0,0,0,1,1,1,Cerebral infarction
+I,I64,0,0,0,0,0,0,1,1,1,"Stroke, not specified as haemorrhage or infarction"
+I,I67,0,0,0,0,0,0,1,1,1,Other cerebrovascular diseases
+I,I69,0,0,0,0,0,0,1,1,1,Sequelae of cerebrovascular disease
+I,I70,0,0,0,0,0,0,1,1,1,Atherosclerosis
+I,I71,0,0,0,0,0,0,1,1,1,Aortic aneurysm and dissection
+I,I72,0,0,0,0,0,0,1,1,1,Other aneurysm
+I,I73,0,0,0,0,0,0,1,1,1,Other peripheral vascular diseases
+I,I74,0,0,0,0,0,0,1,1,1,Arterial embolism and thrombosis
+I,I77,0,0,0,0,0,0,1,1,1,Other disorders of arteries and arterioles
+I,I80,0,0,0,0,0,0,1,1,1,Phlebitis and thrombophlebitis
+I,I82,0,0,0,0,0,0,1,1,1,Other venous embolism and thrombosis
+I,I83,0,0,0,0,0,0,1,1,1,Varicose veins of lower extremities
+J,J10,1,0,0,-1,0,0,1,1,0,Influenza due to other identified influenza virus
+J,J11,1,0,0,-1,0,0,1,1,0,Influenza due to unidentified influenza virus
+J,J13,1,0,0,-1,0,0,1,1,0,Pneumonia due to Streptococcus pneumoniae
+J,J15,1,0,0,-1,0,0,1,1,0,"Bacterial pneumonia, not elsewhere classified"
+J,J18,1,0,0,-1,0,0,1,1,0,"Pneumonia, unspecified organism"
+J,J39,0,0,0,0,0,0,1,1,1,Other diseases of upper respiratory tract
+J,J43,0,1,0,-1,1,0,1,2,1,Emphysema
+J,J44,0,1,0,-1,1,0,1,2,1,Other chronic obstructive pulmonary disease
+J,J45,0,0,0,0,0,0,1,1,1,Asthma
+J,J47,0,0,0,0,0,0,1,1,1,Bronchiectasis
+J,J69,0,0,0,0,0,0,1,1,1,Pneumonitis due to solids and liquids
+J,J80,0,0,0,0,0,0,1,1,1,Acute respiratory distress syndrome
+J,J81,0,0,0,0,0,0,1,1,1,Pulmonary edema
+J,J84,0,0,0,0,0,0,1,1,1,Other interstitial pulmonary diseases
+J,J85,0,0,0,0,0,0,1,1,1,Abscess of lung and mediastinum
+J,J86,0,0,0,0,0,0,1,1,1,Pyothorax
+J,J90,0,0,0,0,0,0,1,1,1,"Pleural effusion, not elsewhere classified"
+J,J93,0,0,0,0,0,0,1,1,1,Pneumothorax and air leak
+J,J96,0,0,0,0,0,0,1,1,1,"Respiratory failure, not elsewhere classified"
+J,J98,0,0,0,0,0,0,1,1,1,Other respiratory disorders
+K,K21,0,0,0,0,0,0,1,1,1,Gastro-esophageal reflux disease
+K,K22,0,0,0,0,0,0,1,1,1,Other diseases of esophagus
+K,K25,0,0,0,0,0,0,1,1,1,Gastric ulcer
+K,K26,0,0,0,0,0,0,1,1,1,Duodenal ulcer
+K,K27,0,0,0,0,0,0,1,1,1,"Peptic ulcer, site unspecified"
+K,K29,0,0,0,0,0,0,1,1,1,Gastritis and duodenitis
+K,K31,0,0,0,0,0,0,1,1,1,Other diseases of stomach and duodenum
+K,K35,0,0,0,0,0,0,1,1,1,Acute appendicitis
+K,K43,0,0,0,0,0,0,1,1,1,Ventral hernia
+K,K46,0,0,0,0,0,0,1,1,1,Unspecified abdominal hernia
+K,K50,0,0,0,0,0,0,1,1,1,Crohn's disease [regional enteritis]
+K,K52,0,0,0,0,0,0,1,1,1,Other and unspecified noninfective gastroenteritis and colitis
+K,K55,0,0,0,0,0,0,1,1,1,Vascular disorders of intestine
+K,K56,0,0,0,0,0,0,1,1,1,Paralytic ileus and intestinal obstruction without hernia
+K,K57,0,0,0,0,0,0,1,1,1,Diverticular disease of intestine
+K,K59,0,0,0,0,0,0,1,1,1,Other functional intestinal disorders
+K,K63,0,0,0,0,0,0,1,1,1,Other diseases of intestine
+K,K65,0,0,0,0,0,0,1,1,1,Peritonitis
+K,K66,0,0,0,0,0,0,1,1,1,Other disorders of peritoneum
+K,K70,0,1,0,-1,1,0,1,2,1,Alcoholic liver disease
+K,K72,0,0,0,0,0,0,1,1,1,"Hepatic failure, not elsewhere classified"
+K,K74,0,1,0,-1,1,0,1,2,1,Fibrosis and cirrhosis of liver
+K,K75,0,0,0,0,0,0,1,1,1,Other inflammatory liver diseases
+K,K76,0,0,0,0,0,0,1,1,1,Other diseases of liver
+K,K80,0,0,0,0,0,0,1,1,1,Cholelithiasis
+K,K81,0,0,0,0,0,0,1,1,1,Cholecystitis
+K,K83,0,0,0,0,0,0,1,1,1,Other diseases of biliary tract
+K,K85,0,0,0,0,0,1,1,2,2,Acute pancreatitis
+K,K86,0,0,0,0,0,1,1,2,2,Other diseases of pancreas
+K,K90,0,0,0,0,0,0,1,1,1,Intestinal malabsorption
+K,K92,0,0,0,0,0,0,1,1,1,Other diseases of digestive system
+L,L02,0,0,0,0,0,0,1,1,1,"Cutaneous abscess, furuncle and carbuncle"
+L,L03,0,0,0,0,0,0,1,1,1,Cellulitis and acute lymphangitis
+L,L08,0,0,0,0,0,0,1,1,1,Other local infections of skin and subcutaneous tissue
+L,L89,0,0,0,0,0,0,1,1,1,Pressure ulcer
+M,M06,0,0,0,0,0,0,1,1,1,Other rheumatoid arthritis
+M,M31,0,0,0,0,0,0,1,1,1,Other necrotizing vasculopathies
+M,M32,0,0,0,0,0,0,1,1,1,Systemic lupus erythematosus (SLE)
+M,M33,0,0,0,0,0,0,1,1,1,Dermatopolymyositis
+M,M34,0,0,0,0,0,0,1,1,1,Systemic sclerosis [scleroderma]
+M,M35,0,0,0,0,0,0,1,1,1,Other systemic involvement of connective tissue
+M,M62,0,0,0,0,0,0,1,1,1,Other disorders of muscle
+M,M72,0,0,0,0,0,0,1,1,1,Fibroblastic disorders
+M,M86,0,0,0,0,0,0,1,1,1,Osteomyelitis
+N,N03,0,0,0,0,0,0,1,1,1,Chronic nephritic syndrome
+N,N12,0,0,0,0,0,0,1,1,1,"Tubulo-interstitial nephritis, not specified as acute or chronic"
+N,N17,0,0,0,0,0,0,1,1,1,Acute kidney failure
+N,N18,0,0,0,0,0,0,1,1,1,Chronic kidney disease (CKD)
+N,N19,0,0,0,0,0,0,1,1,1,Unspecified kidney failure
+N,N20,0,0,0,0,0,0,1,1,1,Calculus of kidney and ureter
+N,N28,0,0,0,0,0,0,1,1,1,"Other disorders of kidney and ureter, not elsewhere classified"
+N,N39,0,0,0,0,0,0,1,1,1,Other disorders of urinary system
+Q,Q21,0,0,0,0,0,0,1,1,1,Congenital malformations of cardiac septa
+Q,Q24,0,0,0,0,0,0,1,1,1,Other congenital malformations of heart
+Q,Q27,0,0,0,0,0,0,1,1,1,Other congenital malformations of peripheral vascular system
+Q,Q61,0,0,0,0,0,0,1,1,1,Cystic kidney disease
+R,R09,0,0,0,0,0,0,1,1,1,Other symptoms and signs involving the circulatory and respiratory system
+R,R56,0,0,0,0,0,0,1,1,1,"Convulsions, not elsewhere classified"
+R,R57,0,0,0,0,0,0,1,1,1,"Shock, not elsewhere classified"
+R,R58,0,0,0,0,0,0,1,1,1,"Hemorrhage, not elsewhere classified"
+R,R62,0,0,0,0,0,0,1,1,1,Lack of expected normal physiological development in childhood and adults
+R,R68,0,0,0,0,0,0,0,0,0,Other general symptoms and signs
+R,R99,0,0,0,0,0,0,0,0,0,Ill-defined and unknown cause of mortality
+V,V03,0,0,1,-1,1,0,0,1,0,"Pedestrian injured in collision with car, pick-up truck or van"
+V,V09,0,0,1,-1,1,0,0,1,0,Pedestrian injured in other and unspecified transport accidents
+V,V43,0,0,1,-1,1,0,0,1,0,"Car occupant injured in collision with car, pick-up truck or van"
+V,V44,0,0,1,-1,1,0,0,1,0,Car occupant injured in collision with heavy transport vehicle or bus
+V,V47,0,0,1,-1,1,0,0,1,0,Car occupant injured in collision with fixed or stationary object
+V,V48,0,0,1,-1,1,0,0,1,0,Car occupant injured in noncollision transport accident
+V,V49,0,0,1,-1,1,0,0,1,0,Car occupant injured in other and unspecified transport accidents
+V,V87,0,0,1,-1,1,0,0,1,0,Traffic accident of specified type but victim's mode of transport unknown
+V,V89,0,0,1,-1,1,0,0,1,0,"Motor- or nonmotor-vehicle accident, type of vehicle unspecified"
+W,W01,0,0,1,-1,1,0,0,1,0,"Fall on same level from slipping, tripping and stumbling"
+W,W10,0,0,1,-1,1,0,0,1,0,Fall on and from stairs and steps
+W,W11,0,0,1,-1,1,0,0,1,0,Fall on and from ladder
+W,W13,0,0,1,-1,1,0,0,1,0,"Fall from, out of or through building or structure"
+W,W17,0,0,1,-1,1,0,0,1,0,Other fall from one level to another
+W,W18,0,0,1,-1,1,0,0,1,0,"Other slipping, tripping and stumbling and falls"
+W,W19,0,0,1,-1,1,0,0,1,0,Unspecified fall
+W,W65,0,0,1,-1,1,0,0,1,0,Accidental drowning and submersion while in bath-tub
+W,W67,0,0,1,-1,1,0,0,1,0,Accidental drowning and submersion while in swimming-pool
+W,W78,0,0,1,-1,1,0,0,1,0,Inhalation of gastric contents
+W,W79,0,0,1,-1,1,0,0,1,0,Inhalation and ingestion of food causing obstruction of respiratory tract
+W,W80,0,0,1,-1,1,0,0,1,0,Inhalation and ingestion of other objects causing obstruction of respiratory tract
+W,W84,0,0,1,-1,0,0,0,0,-1,Unspecified threat to breathing
+X,X00,0,0,1,-1,1,0,0,1,0,Exposure to uncontrolled fire in building or structure
+X,X09,0,0,1,-1,1,0,0,1,0,"Exposure to unspecified smoke, fire and flames"
+X,X30,0,0,1,-1,1,0,0,1,0,Exposure to excessive natural heat
+X,X31,0,0,1,-1,1,0,0,1,0,Exposure to excessive natural cold
+X,X44,0,1,1,-2,0,0,0,0,-2,"Accidental poisoning by and exposure to other and unspecified drugs, medicaments and biological substances"
+X,X47,0,1,1,-2,0,0,0,0,-2,Accidental poisoning by and exposure to carbon monoxide and other gases and vapours
+X,X59,0,0,1,-1,0,0,0,0,-1,Exposure to unspecified factor
+X,X64,0,1,1,-2,1,0,0,1,-1,"Intentional self-poisoning by and exposure to other and unspecified drugs, medicaments and biological substances"
+X,X67,0,1,1,-2,1,0,0,1,-1,Intentional self-poisoning by and exposure to carbon monoxide and other gases and vapours
+X,X70,0,0,1,-1,1,0,0,1,0,"Intentional self-harm by hanging, strangulation and suffocation"
+X,X72,0,0,1,-1,1,0,0,1,0,Intentional self-harm by handgun discharge
+X,X73,0,0,1,-1,1,0,0,1,0,"Intentional self-harm by rifle, shotgun and larger firearm discharge"
+X,X74,0,0,1,-1,1,0,0,1,0,Intentional self-harm by other and unspecified firearm and gun discharge
+X,X78,0,0,1,-1,1,0,0,1,0,Intentional self-harm by sharp object
+X,X80,0,0,1,-1,1,0,0,1,0,Intentional self-harm by jumping from a high place
+X,X95,0,0,1,-1,0,0,0,0,-1,Assault by other and unspecified firearm and gun discharge
+Y,Y09,0,0,1,-1,0,0,0,0,-1,Assault by unspecified means
+Y,Y34,0,0,1,-1,0,0,0,0,-1,"Unspecified event, undetermined intent"
+Y,Y83,0,0,1,-1,0,0,1,1,0,"Surgical operation and other surgical procedures as the cause of abnormal reaction of the patient, or of later complication, without mention of misadventure at the time of the procedure"
+Y,Y84,0,0,1,-1,0,0,1,1,0,"Other medical procedures as the cause of abnormal reaction of the patient, or of later complication, without mention of misadventure at the time of the procedure"
+Y,Y86,0,0,1,-1,0,0,0,0,-1,Sequelae of other accidents
